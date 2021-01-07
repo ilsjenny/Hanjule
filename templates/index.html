@@ -15,9 +15,7 @@
     <link href="/static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -28,17 +26,16 @@
             user-select: none;
         }
 
-        .Hanjule_font {
-            font-family: 'Open Sans Condensed', sans-serif;
-            font-size: 30px
-        }
-
         * {
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Song Myung', serif;
         }
 
         .mute_font {
             color: #b1afaf;
+        }
+
+        .logo_font {
+            font-size: 30px;
         }
 
         .big_font {
@@ -46,11 +43,11 @@
         }
 
         .image {
-            width: 160px;
+            width: 170px;
         }
 
         .wrap_main {
-            width: 1200px;
+            width: 1100px;
             margin: auto;
         }
 
@@ -63,6 +60,10 @@
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
+        }
+
+        .right_align {
+            text-align: right;
         }
 
         @media (min-width: 768px) {
@@ -83,7 +84,7 @@
                 <div class="col-sm-8 col-md-7 py-4">
                     <h4 class="text-white">About</h4>
                     <p class="mute_font">
-                        우리가 살면서 직접 경험할 수 있는 세계는 참으로 좁습니다. 그래서 우리는 책을 통해 세계를 넓혀갑니다.
+                        우리가 살면서 직접 경험할 수 있는 세계는 참 좁습니다. 그래서 우리는 책을 통해 세계를 넓혀갑니다.
                         책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
                         그 한줄들이 모이고 모여 나라는 사람이 완성됩니다.</p>
                     <p class="mute_font">
@@ -105,7 +106,7 @@
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a href="#" class="navbar-brand d-flex align-items-center">
-                <strong class="Hanjule_font">한줄 Hanjule</strong>
+                <strong class="logo_font">한 줄</strong>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,74 +143,17 @@
             </div>
         </div>
     </section>
-    <div class="row mb-2 wrap_main">
-        <div>
-            <button type="button" class="btn btn-light">책 추가</button>
-        </div>
-        <p></p>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">소년이 온다</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto truncate line-clamp">"썩어가는 내 옆구리를 생각해.
-                        거길 관통한 총알을 생각해.
-                        처음엔 차디찬 몽둥이 같았던 그것,
-                        순식간에 뱃속을 휘젓는 불덩이가 된 그것,
-                        그게 반대편 옆구리에 만들어놓은, 내 모든 따뜻한 피를 흘러나가게 한 구멍을 생각해.
-                        차디찬 방아쇠를 생각해.
-                        그걸 당긴 따뜻한 손가락을 생각해.
-                        나를 조준한 눈을 생각해.
-                        쏘라고 명령한 사람의 눈을 생각해.
-                        그들의 얼굴을 보고 싶다, 잠든 그들의 눈꺼풀 위로 어른거리고 싶다, 꿈속으로 불쑥 들어가고 싶다, 그 이마, 그 눈꺼풀들을 밤새 건너다니며 아른거리고 싶다.
-                        그들이 악몽 속에서 피 흐르는 내 눈을 볼 때까지. 내 목소리를 들을 때까지. 왜 나를 쐈지, 왜 나를 죽였지." -57-58p</p>
-                    <a href="#" class="stretched-link">더보기</a>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">다른 한줄</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">한줄 추가</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">...</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                         role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                         focusable="false"><title></title>
-                        <img class="image" src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
-                    </svg>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-success">Design</strong>
-                    <h3 class="mb-0">Post title</h3>
-                    <div class="mb-1 text-muted">Nov 11</div>
-                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                         role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                         focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"/>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                    </svg>
-
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row mb-2 wrap_main">
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
+                </div>
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">소년이 온다</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto truncate line-clamp">썩어가는 내 옆구리를 생각해.
+                    <p class="card-text mb-auto truncate line-clamp text-muted">썩어가는 내 옆구리를 생각해.
                         거길 관통한 총알을 생각해.
                         처음엔 차디찬 몽둥이 같았던 그것,
                         순식간에 뱃속을 휘젓는 불덩이가 된 그것,
@@ -220,19 +164,11 @@
                         쏘라고 명령한 사람의 눈을 생각해.
                         그들의 얼굴을 보고 싶다, 잠든 그들의 눈꺼풀 위로 어른거리고 싶다, 꿈속으로 불쑥 들어가고 싶다, 그 이마, 그 눈꺼풀들을 밤새 건너다니며 아른거리고 싶다.
                         그들이 악몽 속에서 피 흐르는 내 눈을 볼 때까지. 내 목소리를 들을 때까지. 왜 나를 쐈지, 왜 나를 죽였지. -57-58p</p>
-                    <a href="#" class="stretched-link">...</a>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">다른 한줄</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">한줄 추가</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">...</button>
-                        </div>
-                    </div>
-                    <div class="col-auto d-none d-lg-block">
-
-                        <img class="image bd-placeholder-img"
-                             src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
-                    </div>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">양심. 그래요, 양심.
+                        세상에서 제일 무서운 게 그겁니다.
+                        (...) 수십만 사람들의 피가 모여 거대한 혈관을 이룬 것 같았던 생생한 느낌을 기억합니다. 그 혈관에 흐르며 고동치는, 세상에서 가장 거대하고 숭고한 심장의 맥박을 나는
+                        느꼈습니다. 감히 내가 그것의 일부가 되었다고 느꼈습니다.-114p </p>
                 </div>
             </div>
         </div>
