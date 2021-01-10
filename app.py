@@ -15,5 +15,9 @@ def get_book_page():
 def get_quote_page():
     return render_template('quote.html')
 
+@app.route('/add_book')
+def get_addbook_page():
+    return render_template('add_book.html')
+
 if __name__ == '__main__':
     app.run()

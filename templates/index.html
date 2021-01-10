@@ -6,10 +6,9 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.79.0">
-    <title>Album example · Bootstrap v5.0</title>
+    <title>Main</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
-
 
     <!-- Bootstrap core CSS -->
     <link href="/static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +42,13 @@
         }
 
         .image {
-            width: 170px;
+            width: 180px;
+        }
+
+        .title_font {
+            font-size: 30px;
+            color: black;
+            text-decoration: none;
         }
 
         .wrap_main {
@@ -62,8 +67,8 @@
             -webkit-box-orient: vertical;
         }
 
-        .right_align {
-            text-align: right;
+        .button {
+            margin-left: 105px;
         }
 
         @media (min-width: 768px) {
@@ -72,7 +77,6 @@
             }
         }
     </style>
-
 
 </head>
 <body>
@@ -95,7 +99,7 @@
                 <div class="col-sm-4 offset-md-1 py-4">
                     <h4 class="text-white"></h4>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">한줄 추가</a></li>
+                        <li><a href="#" class="text-white">Log Out</a></li>
                         <li><a href="#" class="text-white">Contact Us</a></li>
                         <li><a href="#" class="text-white"></a></li>
                     </ul>
@@ -105,8 +109,12 @@
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <strong class="logo_font">한 줄</strong>
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong class="logo_font"> 한 줄</strong>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil"
+                     viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                </svg>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,7 +143,12 @@
                         <!--                        <li><a class="dropdown-item" href="#">Separated link</a></li>-->
                     </ul>
                     <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <button type="button" class="btn btn-secondary btn-lg">검색</button>
+                    <button type="button" class="btn btn-secondary btn-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </button>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button class="btn btn-dark big_font" type="button">아무거나 한줄!</button>
@@ -144,6 +157,14 @@
         </div>
     </section>
     </div>
+    <button onclick="window.location.href='/add_book'" class="btn btn-outline-secondary button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book"
+             viewBox="0 0 16 16">
+            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+        </svg>
+        책 추가
+    </button>
+    <p></p>
     <div class="row mb-2 wrap_main">
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -152,7 +173,7 @@
                          src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
                 </div>
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">소년이 온다</h3>
+                    <a class="mb-0 title_font" href="/book">소년이 온다</a>
                     <p class="card-text mb-auto truncate line-clamp text-muted">썩어가는 내 옆구리를 생각해.
                         거길 관통한 총알을 생각해.
                         처음엔 차디찬 몽둥이 같았던 그것,
@@ -169,6 +190,76 @@
                         세상에서 제일 무서운 게 그겁니다.
                         (...) 수십만 사람들의 피가 모여 거대한 혈관을 이룬 것 같았던 생생한 느낌을 기억합니다. 그 혈관에 흐르며 고동치는, 세상에서 가장 거대하고 숭고한 심장의 맥박을 나는
                         느꼈습니다. 감히 내가 그것의 일부가 되었다고 느꼈습니다.-114p </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">Title</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">Title</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">Title</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">Title</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">Title</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
                 </div>
             </div>
         </div>
