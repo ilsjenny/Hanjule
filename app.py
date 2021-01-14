@@ -39,19 +39,19 @@ def add_book():
     quote_receive = request.form['quote_give']
     comment_receive = request.form['comment_give']
 
-    db.books.insert({
+    db.books.insert_one({
         'title': title_receive
         'image': image_receive
     })
 
     book_id = '책 id 값'
-    db.quotes.insert({
+    db.quotes.insert_one({
         'book_id': book_id,
         'quote': quote_receive,
     })
 
     quote_id = '구절 id'
-    db.comments.insert({
+    db.comments.insert_one({
         'quote_id': quote_id,
         'comment': comment_receive
     })
@@ -63,7 +63,7 @@ def add_book():
 def add_quote():
     quote_receive = request.form['quote_give']
     book_id = '책 id'
-    db.quotes.insert({
+    db.quotes.insert_one({
         'book_id': book_id,
         'quote': quote_receive,
     })
@@ -71,7 +71,7 @@ def add_quote():
 def add_comment():
     comment_receive = request.form['comment_give']
     quote_id = '구절 id'
-    db.comments.insert({
+    db.comments.insert_one({
         'quote_id': quote_id,
         'comment': comment_receive
     })
