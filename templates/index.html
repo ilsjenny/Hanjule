@@ -78,6 +78,45 @@
         }
     </style>
 
+    <script>
+
+        function showBooks() {
+            $.ajax({
+                type: "GET",
+                url: "/book",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let books = response["books"];
+                        for (let i = 0; i < books.length; i++) {
+                            makeBooks(books[i]["title"], books[i]["image"], books[i]["quote"]);
+                        }
+                    } else {
+                        alert("데이터를 받아오지 못했습니다");
+                    }
+                }
+            })
+        }
+        function makeBooks(title, image, quote) {
+            let tempHtml = `<div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col-auto d-none d-lg-block">
+                    <img class="image bd-placeholder-img"
+                         src="${image}">
+                </div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a class="mb-0 title_font" href="/book">${title}</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">${a_quote}</p>
+                    <p></p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">${b_quote}}</p>
+                </div>
+            </div>
+        </div>`;
+            $('#added-books').append(tempHtml);
+        }
+
+    </script>
+
 </head>
 <body>
 
@@ -88,20 +127,15 @@
                 <div class="col-sm-8 col-md-7 py-4">
                     <h4 class="text-white">About</h4>
                     <p class="mute_font">
-                        우리가 살면서 직접 경험할 수 있는 세계는 참 좁습니다. 그래서 우리는 책을 통해 세계를 넓혀갑니다.
                         책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
-                        그 한줄들이 모이고 모여 나라는 사람이 완성됩니다.</p>
-                    <p class="mute_font">
-                        '한줄'은 나도 모르게 나를 구성해온 조각들을 모아서 보여줍니다.
-                        나는 이 각각의 조각들에서 무엇을 느꼈고 어떤 세계를 보았을까요?
-                        지금의 나는 이 조각들에 대해 또 어떻게 다르게 받아들일까요? </p>
+                        여러분들은 책을 읽으면서 어떤 부분에서 어떤 생각이 드셨나요? 함께 공유하며 책들을 기억해 봅시다.
+                        어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
+                    </p>
                 </div>
                 <div class="col-sm-4 offset-md-1 py-4">
                     <h4 class="text-white"></h4>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Log Out</a></li>
                         <li><a href="#" class="text-white">Contact Us</a></li>
-                        <li><a href="#" class="text-white"></a></li>
                     </ul>
                 </div>
             </div>
@@ -116,9 +150,10 @@
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                 </svg>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+            <button class="navbar-toggler text-decoration-underline" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                About
             </button>
         </div>
     </div>
@@ -135,8 +170,8 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">제목</a></li>
-                        <li><a class="dropdown-item" href="#">태그</a></li>
-                        <li><a class="dropdown-item" href="#">제목 or 태그</a></li>
+                        <li><a class="dropdown-item" href="#">한줄</a></li>
+                        <li><a class="dropdown-item" href="#">코멘트</a></li>
                         <!--                        <li>-->
                         <!--                            <hr class="dropdown-divider">-->
                         <!--                        </li>-->
@@ -207,62 +242,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
-                </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">Title</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
-                </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">Title</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
-                </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">Title</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
-                </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">Title</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
-                </div>
-            </div>
-        </div>
+        <div id="added-books"
     </div>
 </main>
 
