@@ -17,7 +17,12 @@
             crossorigin="anonymous"></script>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
     <link href="/static/assets/brand/css/bootstrap.min.css" rel="stylesheet">
+
+
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
@@ -88,6 +93,7 @@
 
     <script>
         let book_id = '{{ book_id }}';
+
         function showComment() {
 
 
@@ -310,16 +316,6 @@
                 <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
             </svg>
             <p> 썩어가는 내 옆구리를 생각해.
-                거길 관통한 총알을 생각해.
-                처음엔 차디찬 몽둥이 같았던 그것,
-                순식간에 뱃속을 휘젓는 불덩이가 된 그것,
-                그게 반대편 옆구리에 만들어놓은, 내 모든 따뜻한 피를 흘러나가게 한 구멍을 생각해.
-                차디찬 방아쇠를 생각해.
-                그걸 당긴 따뜻한 손가락을 생각해.
-                나를 조준한 눈을 생각해.
-                쏘라고 명령한 사람의 눈을 생각해.
-                그들의 얼굴을 보고 싶다, 잠든 그들의 눈꺼풀 위로 어른거리고 싶다, 꿈속으로 불쑥 들어가고 싶다, 그 이마, 그 눈꺼풀들을 밤새 건너다니며 아른거리고 싶다.
-                그들이 악몽 속에서 피 흐르는 내 눈을 볼 때까지. 내 목소리를 들을 때까지. 왜 나를 쐈지, 왜 나를 죽였지. -57-58p
                 <button id=deleteQuote onclick="deleteQuote()" type="button" class="btn btn-light">삭제</button>
                 <button id=editQuote onclick="editQuote()" type="button" class="btn btn-light">수정</button>
             </p>
@@ -338,11 +334,10 @@
             <div id="comment">
                 <div>
                     <p>
-                        2장 전체가 시체의 시점에서 서술된 점이 신선했는데, 특히 이 부분이 감명깊었다. 본문에는 시처럼 담겨있었는데, 그들의 억울함과 분노, 한이 사무치게 느껴졌다.
-                        쉼표 하나하나 온 정성과 고심을 다해 쓴 작가의 마음도 느껴진다.</p>
+                        2장 전체가 시체의 시점에서 서술된 점이 신선했는데, 특히 이 부분이 감명깊었다.</p>
                 </div>
-                <button id=deleteComment onclick=deleteComment() type="button" class="btn btn-light">삭제</button>
-                <button id=editComment onclick=editComment() type="button" class="btn btn-light">수정</button>
+                <button id=deleteComment onclick="deleteComment()" type="button" class="btn btn-light">삭제</button>
+                <button id=editComment onclick="editComment()" type="button" class="btn btn-light">수정</button>
             </div>
             <div id="newComment">
             </div>
@@ -395,7 +390,8 @@
         <textarea id="new-quote" class="form-control" rows="5">
         </textarea>
         <p></p>
-        <button id="btn-save-quote" onclick="addQuote()" type="button" class="btn btn-outline-primary saveBtn">저장</button>
+        <button id="btn-save-quote" onclick="addQuote()" type="button" class="btn btn-outline-primary saveBtn">저장
+        </button>
     </div>
 </div>
 

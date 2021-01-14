@@ -79,28 +79,26 @@ def add_comment():
         'comment': comment_receive
     })
 
-@app.route('/book', methods=['GET'])
+@app.route('/book?', methods=['GET'])
+#책, 이미지, 구절, 코멘트 보여주기
 def read_book():
-# 저장된 책 보여주기 #
-    book_id = '책 id 값'
-    # 2. 책 검색 by id
-    a_book = db.books.find_one({'_id': ObjectId(book_id)})
-    a_book_id = str(a_book['_id']) # id 값 가져오는법
-    # a_book_id == object_id (둘이 같은값임)
-    # 2-1. api 결과값으로 objectId 넘기는법
-    # b_book 딕셔너리 '_id' 키에 해당하는 값은 ObjectId 타입이라 API 결과값으로 보낼수가 없습니다.
-    # 그래서 그걸 str 함수로 감싸서 문자열로 만들어줘야해요. 예를들어 find_one 으로 한개만 가져왔다면
-    b_book = db.books.find_one({'_id': ObjectId(book_id)})
-    b_book['_id'] = str(b_book['_id'])
-# 저장된 구절 보여주기 #
-    # 4. 문구들 검색 by book_id
-    quotes = list(db.quotes.find({'book_id': book_id}))
-# 저장된 코멘트 보여주기 #
-    quote_id = '구절 id'  # 문자열
-    comments = db.comments.find_one({'_id': quote_id})
+    books = list(db.books.find({}))
+    for book in books:
+        quotes = list(db.quotes.find({'book_id': book['_id']}))
+        for quote in quotes:
+            quote['_id'] = str(quote['_id'])
+            quote['book_id'] = str(quote['book_id'])
+            comments = list(db.comments.find({'quote_id': quote['_id']}))
+            for comment in comments:
+                comment['_id'] = str(comment['_id'])
+                comment['quote_id']= str(comment['quote_id'])
+
+    pprint(books)
+
+    return jsonify({'result': 'success', 'books': books})
 
 @app.route('/books', methods=['GET'])
-# 저장된 책과 구절 보여주기 #
+# 저장된 책, 이미지, 구절 보여주기 #
 def read_books():
     books = list(db.books.find({}))
     for book in books:
