@@ -17,7 +17,7 @@
             crossorigin="anonymous"></script>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/brand/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
@@ -87,8 +87,10 @@
     </style>
 
     <script>
-
+        let book_id = '{{ book_id }}';
         function showComment() {
+
+
             if ($("#commentBox").css("display") == "block") {
                 $("#commentBox").hide();
                 $("#btn-show-comment").html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -407,7 +409,7 @@
                 href="../getting-started/introduction/">getting started guide</a>.</p>
     </div>
 </footer>
-<script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/brand/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

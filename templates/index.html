@@ -1,265 +1,294 @@
 <!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.79.0">
-    <title>Main</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.79.0">
+        <title>Main</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+              crossorigin="anonymous">
 
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+        <!-- Font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
 
-        * {
-            font-family: 'Song Myung', serif;
-        }
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
 
-        .mute_font {
-            color: #b1afaf;
-        }
-
-        .logo_font {
-            font-size: 30px;
-        }
-
-        .big_font {
-            font-size: 20px;
-        }
-
-        .image {
-            width: 180px;
-        }
-
-        .title_font {
-            font-size: 30px;
-            color: black;
-            text-decoration: none;
-        }
-
-        .wrap_main {
-            width: 1100px;
-            margin: auto;
-        }
-
-        .truncate {
-            overflow: hidden;
-            text-overflow: clip;
-        }
-
-        .line-clamp {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-
-        .button {
-            margin-left: 105px;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
             }
-        }
-    </style>
 
-    <script>
+            * {
+                font-family: 'Song Myung', serif;
+            }
 
-        function showBooks() {
-            $.ajax({
-                type: "GET",
-                url: "/book",
-                data: {},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        let books = response["books"];
-                        for (let i = 0; i < books.length; i++) {
-                            makeBooks(books[i]["title"], books[i]["image"], books[i]["quote"]);
-                        }
-                    } else {
-                        alert("데이터를 받아오지 못했습니다");
-                    }
+            .mute_font {
+                color: #b1afaf;
+            }
+
+            .logo_font {
+                font-size: 30px;
+            }
+
+            .big_font {
+                font-size: 20px;
+            }
+
+            .image {
+                width: 180px;
+            }
+
+            .title_font {
+                font-size: 30px;
+                color: black;
+                text-decoration: none;
+            }
+
+            .wrap_main {
+                width: 1100px;
+                margin: auto;
+            }
+
+            .truncate {
+                overflow: hidden;
+                text-overflow: clip;
+            }
+
+            .line-clamp {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+
+            .button {
+                margin-left: 105px;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
                 }
+            }
+        </style>
+
+        <script>
+            $(document).ready(function () {
+                showBooks();
             })
-        }
-        function makeBooks(title, image, quote) {
-            let tempHtml = `<div class="col-md-6">
+
+            function showBooks() {
+                $('#added-books').empty();
+                $.ajax({
+                    type: "GET",
+                    url: "/books",
+                    data: {},
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            let books = response["books"];
+                            for (let i = 0; i < books.length; i++) {
+                                let book = books[i];
+                                let a_quote = '';
+                                let b_quote = '';
+                                let quotes = book['quotes']
+
+                                if (quotes.length >= 2) {
+                                    a_quote = quotes[quotes.length - 1]['quote'];
+                                    b_quote = quotes[quotes.length - 2]['quote'];
+                                } else if (quotes.length === 1) {
+                                    a_quote = quotes[quotes.length - 1]['quote'];
+                                }
+
+                                makeBooks(book['_id'], book['title'], book['image'], a_quote, b_quote);
+                            }
+                        } else {
+                            alert("데이터를 받아오지 못했습니다");
+                        }
+                    }
+                })
+            }
+
+            function makeBooks(book_id, title, image, a_quote, b_quote) {
+                let tempHtml = `<div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col-auto d-none d-lg-block">
                     <img class="image bd-placeholder-img"
                          src="${image}">
                 </div>
                 <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">${title}</a>
+                    <a class="mb-0 title_font" href="/book?book_id=${book_id}">${title}</a>
                     <p class="card-text mb-auto truncate line-clamp text-muted">${a_quote}</p>
                     <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">${b_quote}}</p>
+                    <p class="card-text mb-auto truncate line-clamp text-muted">${b_quote}</p>
                 </div>
             </div>
         </div>`;
-            $('#added-books').append(tempHtml);
-        }
+                $('#added-books').append(tempHtml);
+            }
 
-    </script>
+        </script>
 
-</head>
-<body>
+    </head>
+    <body>
 
-<header>
-    <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-7 py-4">
-                    <h4 class="text-white">About</h4>
-                    <p class="mute_font">
-                        책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
-                        여러분들은 책을 읽으면서 어떤 부분에서 어떤 생각이 드셨나요? 함께 공유하며 책들을 기억해 봅시다.
-                        어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
-                    </p>
-                </div>
-                <div class="col-sm-4 offset-md-1 py-4">
-                    <h4 class="text-white"></h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Contact Us</a></li>
-                    </ul>
+        <header>
+            <div class="collapse bg-dark" id="navbarHeader">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-md-7 py-4">
+                            <h4 class="text-white">About</h4>
+                            <p class="mute_font">
+                                책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
+                                여러분들은 책을 읽으면서 어떤 부분에서 어떤 생각이 드셨나요? 함께 공유하며 책들을 기억해 봅시다.
+                                어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
+                            </p>
+                        </div>
+                        <div class="col-sm-4 offset-md-1 py-4">
+                            <h4 class="text-white"></h4>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a href="/" class="navbar-brand d-flex align-items-center">
-                <strong class="logo_font"> 한 줄</strong>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil"
-                     viewBox="0 0 16 16">
-                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                </svg>
-            </a>
-            <button class="navbar-toggler text-decoration-underline" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarHeader"
-                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                About
-            </button>
-        </div>
-    </div>
-</header>
-
-<main>
-
-    <section class="py-5 text-center container">
-        <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <div class="input-group mb-3">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">제목
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">제목</a></li>
-                        <li><a class="dropdown-item" href="#">한줄</a></li>
-                        <li><a class="dropdown-item" href="#">코멘트</a></li>
-                        <!--                        <li>-->
-                        <!--                            <hr class="dropdown-divider">-->
-                        <!--                        </li>-->
-                        <!--                        <li><a class="dropdown-item" href="#">Separated link</a></li>-->
-                    </ul>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <button type="button" class="btn btn-secondary btn-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            <div class="navbar navbar-dark bg-dark shadow-sm">
+                <div class="container">
+                    <a href="/" class="navbar-brand d-flex align-items-center">
+                        <strong class="logo_font"> 한 줄</strong>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-pencil"
+                             viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                         </svg>
+                    </a>
+                    <button class="navbar-toggler text-decoration-underline" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarHeader"
+                            aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        About
                     </button>
                 </div>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-dark big_font" type="button">아무거나 한줄!</button>
-                </div>
             </div>
-        </div>
-    </section>
-    </div>
-    <button onclick="window.location.href='/add_book'" class="btn btn-outline-secondary button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book"
-             viewBox="0 0 16 16">
-            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
-        </svg>
-        책 추가
-    </button>
-    <p></p>
-    <div class="row mb-2 wrap_main">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
+        </header>
+
+        <main>
+
+            <section class="py-5 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">제목
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">제목</a></li>
+                                <li><a class="dropdown-item" href="#">한줄</a></li>
+                                <li><a class="dropdown-item" href="#">코멘트</a></li>
+                                <!--                        <li>-->
+                                <!--                            <hr class="dropdown-divider">-->
+                                <!--                        </li>-->
+                                <!--                        <li><a class="dropdown-item" href="#">Separated link</a></li>-->
+                            </ul>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <button type="button" class="btn btn-secondary btn-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-dark big_font" type="button">아무거나 한줄!</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">소년이 온다</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">썩어가는 내 옆구리를 생각해.
-                        거길 관통한 총알을 생각해.
-                        처음엔 차디찬 몽둥이 같았던 그것,
-                        순식간에 뱃속을 휘젓는 불덩이가 된 그것,
-                        그게 반대편 옆구리에 만들어놓은, 내 모든 따뜻한 피를 흘러나가게 한 구멍을 생각해.
-                        차디찬 방아쇠를 생각해.
-                        그걸 당긴 따뜻한 손가락을 생각해.
-                        나를 조준한 눈을 생각해.
-                        쏘라고 명령한 사람의 눈을 생각해.
-                        그들의 얼굴을 보고 싶다, 잠든 그들의 눈꺼풀 위로 어른거리고 싶다, 꿈속으로 불쑥 들어가고 싶다, 그 이마, 그 눈꺼풀들을 밤새 건너다니며 아른거리고 싶다.
-                        그들이 악몽 속에서 피 흐르는 내 눈을 볼 때까지. 내 목소리를 들을 때까지. 왜 나를 쐈지, 왜 나를 죽였지. -57-58p</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">양심. 그래요, 양심.
-                        세상에서 제일 무서운 게 그겁니다.
-                        (...) 수십만 사람들의 피가 모여 거대한 혈관을 이룬 것 같았던 생생한 느낌을 기억합니다. 그 혈관에 흐르며 고동치는, 세상에서 가장 거대하고 숭고한 심장의 맥박을 나는
-                        느꼈습니다. 감히 내가 그것의 일부가 되었다고 느꼈습니다.-114p </p>
-                </div>
+            </section>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+            <button onclick="window.location.href='/add_book'" class="btn btn-outline-secondary button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book"
+                     viewBox="0 0 16 16">
+                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                </svg>
+                책 추가
+            </button>
+            <p></p>
+            <div id="added-books" class="row mb-2 wrap_main">
+                <div class="col-md-6">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col-auto d-none d-lg-block">
+                            <img class="image bd-placeholder-img"
+                                 src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
+                        </div>
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <a class="mb-0 title_font" href="/book">소년이 온다</a>
+                            <p class="card-text mb-auto truncate line-clamp text-muted">썩어가는 내 옆구리를 생각해.
+                                거길 관통한 총알을 생각해.
+                                처음엔 차디찬 몽둥이 같았던 그것,
+                                순식간에 뱃속을 휘젓는 불덩이가 된 그것,
+                                그게 반대편 옆구리에 만들어놓은, 내 모든 따뜻한 피를 흘러나가게 한 구멍을 생각해.
+                                차디찬 방아쇠를 생각해.
+                                그걸 당긴 따뜻한 손가락을 생각해.
+                                나를 조준한 눈을 생각해.
+                                쏘라고 명령한 사람의 눈을 생각해.
+                                그들의 얼굴을 보고 싶다, 잠든 그들의 눈꺼풀 위로 어른거리고 싶다, 꿈속으로 불쑥 들어가고 싶다, 그 이마, 그 눈꺼풀들을 밤새 건너다니며 아른거리고 싶다.
+                                그들이 악몽 속에서 피 흐르는 내 눈을 볼 때까지. 내 목소리를 들을 때까지. 왜 나를 쐈지, 왜 나를 죽였지. -57-58p</p>
+                            <p></p>
+                            <p class="card-text mb-auto truncate line-clamp text-muted">양심. 그래요, 양심.
+                                세상에서 제일 무서운 게 그겁니다.
+                                (...) 수십만 사람들의 피가 모여 거대한 혈관을 이룬 것 같았던 생생한 느낌을 기억합니다. 그 혈관에 흐르며 고동치는, 세상에서 가장 거대하고 숭고한
+                                심장의 맥박을 나는
+                                느꼈습니다. 감히 내가 그것의 일부가 되었다고 느꼈습니다.-114p </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book">Title</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                    <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                <div class="col-md-6">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col-auto d-none d-lg-block">
+                            <img class="image bd-placeholder-img"
+                                 src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
+                        </div>
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <a class="mb-0 title_font" href="/book">Title</a>
+                            <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
+                            <p></p>
+                            <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <div id="added-books"
-    </div>
-</main>
+        </main>
 
-<footer class="text-muted py-5">
-    <div class="container">
-        <p class="float-end mb-1">
-            <a href="#">Back to top</a>
-        </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
-                href="../getting-started/introduction/">getting started guide</a>.</p>
-    </div>
-</footer>
+        <footer class="text-muted py-5">
+            <div class="container">
+                <p class="float-end mb-1">
+                    <a href="#">Back to top</a>
+                </p>
+                <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for
+                    yourself!</p>
+                <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
+                        href="../getting-started/introduction/">getting started guide</a>.</p>
+            </div>
+        </footer>
 
 
-<script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/assets/brand/js/bootstrap.bundle.min.js"></script>
 
 
-</body>
+    </body>
 </html>

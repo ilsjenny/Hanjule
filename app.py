@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from pprint import pprint
 
 app = Flask(__name__)
 
@@ -16,7 +17,8 @@ def home():
 
 @app.route('/book')
 def get_book_page():
-    return render_template('book.html')
+    book_id = request.args.get('book_id')
+    return render_template('book.html', book_id=book_id)
 
 
 @app.route('/quote')
@@ -39,18 +41,19 @@ def add_book():
     quote_receive = request.form['quote_give']
     comment_receive = request.form['comment_give']
 
-    db.books.insert_one({
-        'title': title_receive
+    book_insertion = db.books.insert_one({
+        'title': title_receive,
         'image': image_receive
     })
 
-    book_id = '책 id 값'
-    db.quotes.insert_one({
+    book_id = book_insertion.inserted_id
+
+    quote_insertion = db.quotes.insert_one({
         'book_id': book_id,
         'quote': quote_receive,
     })
 
-    quote_id = '구절 id'
+    quote_id = quote_insertion.inserted_id
     db.comments.insert_one({
         'quote_id': quote_id,
         'comment': comment_receive
@@ -96,17 +99,21 @@ def read_book():
     quote_id = '구절 id'  # 문자열
     comments = db.comments.find_one({'_id': quote_id})
 
-@app.route('/', methods=['GET'])
+@app.route('/books', methods=['GET'])
 # 저장된 책과 구절 보여주기 #
 def read_books():
-    books = db.books.find({})
+    books = list(db.books.find({}))
     for book in books:
+        quotes = list(db.quotes.find({'book_id': book['_id']}))
+        for quote in quotes:
+            quote['_id'] = str(quote['_id'])
+            quote['book_id'] = str(quote['book_id'])
+
         book['_id'] = str(book['_id'])
-    quotes = db.quotes.find({})
-    for quote in quotes:
-        quote['_id'] = str(quote['_id'])
-    book_id = '책 id 값'
-    quotes = list(db.quotes.find({'book_id': book_id}))
+        book['quotes'] = quotes
+
+    pprint(books)
+
     return jsonify({'result': 'success', 'books': books})
 
 if __name__ == '__main__':
