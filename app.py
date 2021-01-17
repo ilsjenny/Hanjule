@@ -15,8 +15,8 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
-@app.route('/books', methods=['GET'])
 # 저장된 책, 이미지, 구절 불러오기 #
+@app.route('/books', methods=['GET'])
 def read_books():
     books = list(db.books.find({}))
     for book in books:
@@ -73,55 +73,57 @@ def get_book_page():
     book_id = request.args.get('book_id')
     return render_template('book.html', book_id=book_id)
 
-@app.route('/book_quote', methods=['POST'])
 # 구절 추가
+@app.route('/book_quote', methods=['POST'])
 def add_quote():
     quote_receive = request.form['quote_give']
-    book_id = 'book_id 어떻게 찾지?'
+    book_id = request.form['book_id_give']
     db.quotes.insert_one({
-        'book_id': book_id,
+        'book_id': ObjectId(book_id),
         'quote': quote_receive,
     })
 
     return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
 
 
-@app.route('/book_comment', methods=['POST'])
 # 코멘트 추가
+@app.route('/book_comment', methods=['POST'])
 def add_comment():
     comment_receive = request.form['comment_give']
-    quote_id = 'quote_id 어떻게 찾지?'
+    quote_id = request.form['quote_id_give']
     db.comments.insert_one({
-        'quote_id': quote_id,
+        'quote_id': ObjectId(quote_id),
         'comment': comment_receive
     })
 
     return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
 
 
-@app.route('/bookpage', methods=['GET'])
 # 책, 이미지, 구절, 코멘트 다 불러오기
+@app.route('/bookpage', methods=['GET'])
 def read_book():
-    books = list(db.books.find({}))
-    for book in books:
-        quotes = list(db.quotes.find({'book_id': book['_id']}))
-        for quote in quotes:
-            quote['_id'] = str(quote['_id'])
-            quote['book_id'] = str(quote['book_id'])
-            comments = list(db.comments.find({'quote_id': quote['_id']}))
-            for comment in comments:
-                comment['_id'] = str(comment['_id'])
-                comment['quote_id'] = str(comment['quote_id'])
+    book_id = request.args.get('book_id')
+    book = db.books.find_one({'_id': ObjectId(book_id)})
 
-            quote['_id'] = str(quote['_id'])
-            quote['comments'] = comments
+    quotes = list(db.quotes.find({'book_id': book['_id']}))
 
-        book['_id'] = str(book['_id'])
-        book['quotes'] = quotes
+    for quote in quotes:
+        quote['_id'] = str(quote['_id'])
+        quote['book_id'] = str(quote['book_id'])
+        comments = list(db.comments.find({'quote_id': quote['_id']}))
+        for comment in comments:
+            comment['_id'] = str(comment['_id'])
+            comment['quote_id'] = str(comment['quote_id'])
 
-    pprint(books)
+        quote['_id'] = str(quote['_id'])
+        quote['comments'] = comments
 
-    return jsonify({'result': 'success', 'books': books})
+    book['_id'] = str(book['_id'])
+    book['quotes'] = quotes
+
+    pprint(book)
+
+    return jsonify({'result': 'success', 'book': book})
 
 
 if __name__ == '__main__':

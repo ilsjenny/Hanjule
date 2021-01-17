@@ -67,7 +67,7 @@
             margin-left: 520px;
         }
 
-        #commentBox {
+        .commentBox {
             margin-left: 100px;
             width: 500px;
         }
@@ -101,103 +101,123 @@
         function showPage() {
             $.ajax({
                 type: "GET",
-                url: "/bookpage",
+                url: "/bookpage?book_id={{ book_id }}",
                 data: {},
                 success: function (response) {
-                    let books = response["books"];
-                    let quotes = response["quotes"];
-                    let comments = response["comments"];
-                    for (let i = 0; i < books.length; i++) ;
-                    for (let i = 0; i < quotes.length; i++) ;
-                    for (let i = 0; i < comments.length; i++) {
-                        let book = books[i];
-                        let quote = quotes[i];
-                        let comment = comments[i];
-                        makePage(book['_id'], book["title"], book["image"], quote["quote"], comment["comment"], quote['_id'], comment['_id']);
-                    }
+                    let book = response['book'];
+                    renderPage(book);
                 }
             })
         }
 
-        function makePage(book_id, title, image, quote, comment, quote_id, comment_id) {
-            let tempHtml = `<div id="title">
-    <p></p>
-    <h1>${title}</h1> </div>
-    <div class="center image_size">
-        <img width="200" class="image bd-placeholder-img"
-             src="${image}">
-    </div>
-    <div id="quote">
-        <div id="quoteQ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                 class="bi bi-blockquote-left"
-                 viewBox="0 0 16 16">
-                <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
-            </svg>
-            <p>${quote}
-                <button id=deleteQuote onclick="deleteQuote('${quote_id}')" type="button" class="btn btn-light">삭제</button>
-            </p>
-            <button id=btn-show-comment onclick="showComment('${quote_id}')" type="button"
-                    class="btn btn-outline-secondary commentBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-chat-right-text"
-                     viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                열기
-            </button>
-        </div>
-        <div id="commentBox" class="form-post" style="display:none">
-            <div id="comment">
-                <div>
-                    <p>${comment}</p>
-                </div>
-                <button id=deleteComment onclick="deleteComment('${comment_id}')" type="button" class="btn btn-light">삭제</button>
-            </div>
-            <div id="newComment">
-            </div>
-            <button id=addComment-btn class="btn btn-light addComment" onclick="openClose('${quote_id}')">코멘트 추가</button>
-            <div id="addComment" class="form-post" style="display:none">
-                <div>
-                    <div class="form-group">
-                        <textarea id="post-comment" class="form-control" rows="2"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-primary addComment" onclick="addComment('${quote_id}')">코멘트 저장</button>
-                </div>
-            </div>
-        </div>
-    </div>`;
-            $('#page').append(tempHtml);
+        function renderPage(book) {
+            let quotes = book.quotes;
+            $('#book-title').text(book.title);
+            $('#book-image').attr('src', book.image);
+            $('#quote-container').empty();
+
+            for (let i = 0; i < quotes.length; i++) {
+                let quote = quotes[i];
+                renderQuote(quote);
+            }
         }
 
+        function renderQuote(quote) {
+            let quote_id = quote['_id'];
+            let quoteText = quote['quote'];
+            let tempHtml = `
+        <div class="quote">
+            <div class="quote-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                     class="bi bi-blockquote-left"
+                     viewBox="0 0 16 16">
+                    <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
+                </svg>
+                <p> ${quoteText}
+                    <button onclick="deleteQuote('${quote_id}')" type="button" class="btn btn-light">삭제</button>
+                </p>
+                <button id="btn-show-comment-${quote_id}" onclick="showComment('${quote_id}')" type="button"
+                        class="btn btn-outline-secondary commentBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-chat-right-text"
+                         viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                        <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    열기
+                </button>
+            </div>
+            <div class="commentBox" id="commentBox-${quote_id}" class="form-post" style="display:none">
+                <div id="comment-container-${quote_id}">
+
+                </div>
+
+                <div class="newComment">
+                </div>
+
+                <button id="addComment-button-${quote_id}" class="btn btn-light addComment" onclick="openClose('${quote_id}')">코멘트 추가</button>
+
+                <div id="addComment-${quote_id}" class="form-post" style="display:none">
+                    <div>
+                        <div class="form-group">
+                            <textarea id="post-comment-${quote_id}" class="form-control" rows="2"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary addComment" onclick="addComment('${quote_id}')">코멘트 저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+            $('#quote-container').append(tempHtml);
+
+            let comments = quote['comments'];
+            for (let i = 0; i < comments.length; i++) {
+                let comment = comments[i];
+                renderCommment(quote_id, comment);
+            }
+        }
+
+        function renderCommment(quote_id, comment) {
+            let comment_id = comment['_id'];
+            let commentContent = comment['comment'];
+            let tempHtml = `
+                    <div id="comment-${comment_id}">
+                        <div>
+                            <p>
+                                ${commentContent}</p>
+                        </div>
+                        <button onclick="deleteComment('${comment_id}')" type="button" class="btn btn-light">삭제</button>
+                    </div>`;
+            $(`#comment-container-${quote_id}`).append(tempHtml);
+        }
 
         {#(코멘트마다) 코멘트 삭제 버튼#}
 
         function deleteComment(comment_id) {
-            $("#comment").remove();
+            //TODO: ajax 콜로 실제로 삭제한 후에 remove 할것
+            //$("#comment").remove();
         }
 
         {#(구절마다) 구절 및 해당 코멘트들 삭제 버튼#}
 
         function deleteQuote(quote_id) {
+            //TODO: ajax 콜로 실제로 삭제한 후에 remove 할것
             $("#quote").remove();
         }
 
         {#(구절마다) 코멘트 열고 닫기 css 버튼#}
 
         function showComment(quote_id) {
-            if ($("#commentBox-${comment_id}").css("display") == "block") {
-                $("#commentBox").hide();
-                $("#btn-show-comment").html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            if ($(`#commentBox-${quote_id}`).css("display") == "block") {
+                $(`#commentBox-${quote_id}`).hide();
+                $(`#btn-show-comment-${quote_id}`).html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-chat-right-text"
                      viewBox="0 0 16 16">
                     <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
                     <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
                 </svg> 열기`);
             } else {
-                $("#commentBox").show();
-                $("#btn-show-comment").html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                $(`#commentBox-${quote_id}`).show();
+                $(`#btn-show-comment-${quote_id}`).html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-chat-right-text"
                      viewBox="0 0 16 16">
                     <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
@@ -211,28 +231,29 @@
         {#(구절마다) 코멘트 추가 박스 열고 닫기 css 버튼#}
 
         function openClose(quote_id) {
-            if ($("#addComment").css("display") == "block") {
-                $("#addComment").hide();
-                $("#addComment-btn").text('코멘트 추가');
+            if ($(`#addComment-${quote_id}`).css("display") == "block") {
+                $(`#addComment-${quote_id}`).hide();
+                $(`#addComment-button-${quote_id}`).text('코멘트 추가');
             } else {
-                $("#addComment").show();
-                $("#addComment-btn").text('코멘트 취소');
+                $(`#addComment-${quote_id}`).show();
+                $(`#addComment-button-${quote_id}`).text('코멘트 취소');
             }
         }
 
         {#(구절마다) 코멘트 추가 버튼 - db에 코멘트 저장하기#}
 
-        function addComment() {
-            let comment = $('#post-comment').val()
+        function addComment(quote_id) {
+            let comment = $(`#post-comment-${quote_id}`).val();
             if (comment == "") {
                 alert("코멘트를 입력해주세요");
             } else {
                 alert("저장되었습니다");
             }
+
             $.ajax({
                 type: "POST",
                 url: "/book_comment",
-                data: {comment_give: comment},
+                data: {comment_give: comment, quote_id_give: quote_id},
                 success: function (response) {
                     if (response["result"] == "success") {
                         alert(response["msg"]);
@@ -242,44 +263,9 @@
             })
         }
 
-        {#(구절마다) 코멘트 추가 버튼 - db에서 불러오기#}
-
-        function showComment() {
-            $.ajax({
-                type: "GET",
-                url: "/bookpage",
-                data: {},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        let comments = response["comments"];
-                        for (let i = 0; i < comments.length; i++) {
-                            let comment = comments[i];
-                            makeComment(comment);
-                        }
-                    } else {
-                        alert("데이터를 받아오지 못했습니다");
-                    }
-                }
-            })
-        }
-
-        {#(구절마다) 코멘트 추가 버튼 - 붙이고 보여주기 #}
-
-        function makeComment(comment) {
-            let tempHtml = `<p></p><div>
-                    <p>${comment}</p>
-                </div>
-                <button id=deleteComment onclick="deleteComment(comment_id)" type="button" class="btn btn-light">삭제</button>
-            </div>`;
-            $('#newComment').append(tempHtml);
-            $('#post-comment').empty();
-        }
-
-        {#  ! 구  절  추  가  기  능  ! #}
-
         {#구절 추가 상자 열기 닫기 버튼#}
 
-        function QopenClose() {
+        function openCloseQuote() {
             if ($("#newQuote").css("display") == "block") {
                 $("#newQuote").hide();
                 $("#btn-add-quote").text('한줄 추가');
@@ -290,13 +276,12 @@
         }
 
         {#구절 추가 - db에 구절 저장하기#}
-
         function addQuote() {
             let quote = $('#new-quote').val();
             $.ajax({
                 type: "POST",
                 url: "/book_quote",
-                data: {quote_give: quote},
+                data: {quote_give: quote, book_id_give: book_id},
                 success: function (response) {
                     if (response["result"] == "success") {
                         alert(response["msg"]);
@@ -304,54 +289,6 @@
                     }
                 }
             })
-        }
-
-        {#구절 추가 - db에서 불러오기#}
-
-        function showQuote() {
-            $.ajax({
-                type: "GET",
-                url: "/bookpage",
-                data: {},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        let books = response["books"];
-                        for (let i = 0; i < books.length; i++) {
-                            makeQuote(books[i]["quote"]);
-                        }
-                    } else {
-                        alert("한줄을 받아오지 못했습니다");
-                    }
-                }
-            })
-        }
-
-        {#구절 추가 - 붙여서 보여주기#}
-
-        function makeQuote(quote) {
-            let tempHtml = `<div id="quote">
-        <div id="quoteQ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                 class="bi bi-blockquote-left"
-                 viewBox="0 0 16 16">
-                <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
-            </svg>
-            <p>${quote}
-                <button id=deleteQuote onclick=deleteQuote() type="button" class="btn btn-light">삭제</button>
-            </p>
-            <button id=btn-show-comment onclick=showComment() type="button" class="btn btn-outline-secondary commentBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-chat-right-text"
-                     viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                열기
-            </button>
-        </div>
-    </div>`;
-            $('#added-quotes').append(tempHtml);
-            $('#newQuote').hide();
         }
 
     </script>
@@ -398,81 +335,20 @@
 <div class="main_wrap" id="page">
     <div id="title">
         <p></p>
-        <h1>소년이 온다</h1>
+        <h1 id="book-title">소년이 온다</h1>
     </div>
     <div class="center image_size">
-        <img width="200" class="image bd-placeholder-img"
+        <img id="book-image" width="200" class="image bd-placeholder-img"
              src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
     </div>
-    <div id="quote">
-        <div id="quoteQ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                 class="bi bi-blockquote-left"
-                 viewBox="0 0 16 16">
-                <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
-            </svg>
-            <p> 썩어가는 내 옆구리를 생각해.
-                <button id=deleteQuote onclick="deleteQuote()" type="button" class="btn btn-light">삭제</button>
-            </p>
-            <button id=btn-show-comment onclick="showComment()" type="button"
-                    class="btn btn-outline-secondary commentBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-chat-right-text"
-                     viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                열기
-            </button>
-        </div>
-        <div id="commentBox" class="form-post" style="display:none">
-            <div id="comment">
-                <div>
-                    <p>
-                        2장 전체가 감명깊었다.</p>
-                </div>
-                <button id=deleteComment onclick="deleteComment()" type="button" class="btn btn-light">삭제</button>
-            </div>
-            <div id="newComment">
-            </div>
-            <button id=addComment-btn class="btn btn-light addComment" onclick="openClose()">코멘트 추가</button>
-            <div id="addComment" class="form-post" style="display:none">
-                <div>
-                    <div class="form-group">
-                        <textarea id="post-comment" class="form-control" rows="2"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-primary addComment" onclick="addComment()">코멘트 저장</button>
-                </div>
-            </div>
-        </div>
+    <div id="quote-container">
     </div>
-    <div id="quote">
-        <div id="quoteQ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                 class="bi bi-blockquote-left"
-                 viewBox="0 0 16 16">
-                <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
-            </svg>
-            <p> 양심. 그래요, 양심.-114p
-                <button id=deleteQuote onclick="deleteQuote()" type="button" class="btn btn-light">삭제</button>
-            </p>
-            <button id=btn-show-comment onclick="showComment()" type="button"
-                    class="btn btn-outline-secondary commentBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-chat-right-text"
-                     viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                열기
-            </button>
-        </div>
-    </div>
+
     <div id="added-quotes">
     </div>
     <p></p>
     <div>
-        <button id="btn-add-quote" onclick="QopenClose()" type="button" class="btn btn-secondary">한줄 추가</button>
+        <button id="btn-add-quote" onclick="openCloseQuote()" type="button" class="btn btn-secondary">한줄 추가</button>
     </div>
     <p></p>
     <div id="newQuote" style="display:none">
