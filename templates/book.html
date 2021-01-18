@@ -53,9 +53,21 @@
             margin: auto;
         }
 
+
+        .commentBox {
+            width: 500px;
+            margin-left: 100px;
+        }
+
+        .commentBtn {
+            margin-left: 400px;
+        }
+
+
         .center {
             text-align: center;
             margin: auto;
+            display: block;
         }
 
         h1 {
@@ -63,18 +75,6 @@
             margin-top: 30px;
         }
 
-        .commentBtn {
-            margin-left: 520px;
-        }
-
-        .commentBox {
-            margin-left: 100px;
-            width: 500px;
-        }
-
-        .addComment {
-            margin-left: 395px;
-        }
 
         .image {
             margin: 30px;
@@ -93,6 +93,7 @@
 
     <script>
         let book_id = '{{ book_id }}';
+        let quote_id = '{{ quote_id }}'
 
         $(document).ready(function () {
             showPage();
@@ -134,17 +135,17 @@
                     <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
                 </svg>
                 <p> ${quoteText}
-                    <button onclick="deleteQuote('${quote_id}')" type="button" class="btn btn-light">삭제</button>
                 </p>
+                <button onclick="deleteQuote('${quote_id}')" type="button" class="btn btn-outline-danger">삭제</button>
                 <button id="btn-show-comment-${quote_id}" onclick="showComment('${quote_id}')" type="button"
-                        class="btn btn-outline-secondary commentBtn">
+                        class="btn btn-outline-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-chat-right-text"
                          viewBox="0 0 16 16">
                         <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
                         <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
                     </svg>
-                    열기
+                    코멘트 열기
                 </button>
             </div>
             <div class="commentBox" id="commentBox-${quote_id}" class="form-post" style="display:none">
@@ -154,29 +155,29 @@
 
                 <div class="newComment">
                 </div>
-
-                <button id="addComment-button-${quote_id}" class="btn btn-light addComment" onclick="openClose('${quote_id}')">코멘트 추가</button>
+                <p></p>
+                <button id="addComment-button-${quote_id}" class="btn btn-outline-secondary commentBtn" onclick="openClose('${quote_id}')">코멘트 추가</button>
 
                 <div id="addComment-${quote_id}" class="form-post" style="display:none">
                     <div>
                         <div class="form-group">
                             <textarea id="post-comment-${quote_id}" class="form-control" rows="2"></textarea>
                         </div>
-                        <button type="button" class="btn btn-primary addComment" onclick="addComment('${quote_id}')">코멘트 저장</button>
+                        <button type="button" class="btn btn-outline-primary commentBtn" onclick="addComment('${quote_id}')">코멘트 저장</button>
                     </div>
                 </div>
             </div>
-        </div>`;
+        </div> <p></p>`;
             $('#quote-container').append(tempHtml);
 
             let comments = quote['comments'];
             for (let i = 0; i < comments.length; i++) {
                 let comment = comments[i];
-                renderCommment(quote_id, comment);
+                renderComment(quote_id, comment);
             }
         }
 
-        function renderCommment(quote_id, comment) {
+        function renderComment(quote_id, comment) {
             let comment_id = comment['_id'];
             let commentContent = comment['comment'];
             let tempHtml = `
@@ -193,15 +194,51 @@
         {#(코멘트마다) 코멘트 삭제 버튼#}
 
         function deleteComment(comment_id) {
-            //TODO: ajax 콜로 실제로 삭제한 후에 remove 할것
-            //$("#comment").remove();
+            $.ajax({
+                type: "POST",
+                url: "/book_comment_delete",
+                data: {'comment_id_give': comment_id},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('삭제되었습니다')
+                        window.location.reload()
+                    }
+                }
+            });
+            $("#comment").remove();
         }
 
         {#(구절마다) 구절 및 해당 코멘트들 삭제 버튼#}
 
         function deleteQuote(quote_id) {
-            //TODO: ajax 콜로 실제로 삭제한 후에 remove 할것
+            $.ajax({
+                type: "POST",
+                url: "/book_quote_delete",
+                data: {'quote_id_give': quote_id},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('삭제되었습니다')
+                        window.location.reload()
+                    }
+                }
+            });
             $("#quote").remove();
+        }
+
+        {#책 전체 삭제 버튼#}
+
+        function deleteBook(book_id, quote_id) {
+            $.ajax({
+                type: "POST",
+                url: "/book_delete",
+                data: {book_id_give: book_id, quote_id_give: quote_id},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('삭제되었습니다')
+                        window.location.reload()
+                    }
+                }
+            });
         }
 
         {#(구절마다) 코멘트 열고 닫기 css 버튼#}
@@ -214,7 +251,7 @@
                      viewBox="0 0 16 16">
                     <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
                     <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg> 열기`);
+                </svg> 코멘트 열기`);
             } else {
                 $(`#commentBox-${quote_id}`).show();
                 $(`#btn-show-comment-${quote_id}`).html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -222,12 +259,12 @@
                      viewBox="0 0 16 16">
                     <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
                     <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                </svg> 닫기`);
+                </svg> 코멘트 닫기`);
             }
         }
 
         {#  !  코  멘  트  추  가  기   능   !  #}
-
+        d
         {#(구절마다) 코멘트 추가 박스 열고 닫기 css 버튼#}
 
         function openClose(quote_id) {
@@ -276,6 +313,7 @@
         }
 
         {#구절 추가 - db에 구절 저장하기#}
+
         function addQuote() {
             let quote = $('#new-quote').val();
             $.ajax({
@@ -335,11 +373,11 @@
 <div class="main_wrap" id="page">
     <div id="title">
         <p></p>
-        <h1 id="book-title">소년이 온다</h1>
+        <h1 id="book-title"></h1>
     </div>
     <div class="center image_size">
         <img id="book-image" width="200" class="image bd-placeholder-img"
-             src="http://image.kyobobook.co.kr/images/book/xlarge/120/x9788936434120.jpg">
+             src="#">
     </div>
     <div id="quote-container">
     </div>
@@ -348,7 +386,7 @@
     </div>
     <p></p>
     <div>
-        <button id="btn-add-quote" onclick="openCloseQuote()" type="button" class="btn btn-secondary">한줄 추가</button>
+        <div id="btn-add-quote" onclick="openCloseQuote()" type="button" class="btn btn-dark center">한줄 추가</div>
     </div>
     <p></p>
     <div id="newQuote" style="display:none">
@@ -357,8 +395,13 @@
         <p></p>
         <button id="btn-save-quote" onclick="addQuote()" type="button" class="btn btn-outline-primary saveBtn">저장
         </button>
+        <p></p>
     </div>
+        <div id="deleteBook" type="button" class="btn btn-danger center" onclick="deleteBook(book_id, quote_id)">
+            전체 삭제
+        </div>
 </div>
+
 
 <footer class="text-muted py-5">
     <div class="container">

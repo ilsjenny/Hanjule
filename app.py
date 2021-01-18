@@ -39,8 +39,8 @@ def read_books():
 def get_addbook_page():
     return render_template('add_book.html')
 
-@app.route('/add_book', methods=['POST'])
 # 책 정보 (제목, 이미지, 구절, 코멘트) 추가 #
+@app.route('/add_book', methods=['POST'])
 def add_book():
     title_receive = request.form['title_give']
     image_receive = request.form['image_give']
@@ -85,6 +85,45 @@ def add_quote():
 
     return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
 
+# 구절 & 해당 코멘트 삭제
+@app.route('/book_quote_delete', methods=['POST'])
+def delete_quote():
+    quote_id = request.form['quote_id_give']
+    db.quotes.delete_one({
+        '_id': ObjectId(quote_id),
+    })
+    db.comments.delete_many({
+        'quote_id': ObjectId(quote_id),
+    })
+
+    return jsonify({'result': 'success', 'msg': '삭제되었습니다.'})
+
+# 코멘트 삭제
+@app.route('/book_comment_delete', methods=['POST'])
+def delete_comment():
+    comment_id = request.form['comment_id_give']
+    db.comments.delete_one({
+        '_id': ObjectId(comment_id),
+    })
+
+    return jsonify({'result': 'success', 'msg': '삭제되었습니다.'})
+
+# 책 & 구절 & 코멘트 삭제
+@app.route('/book_delete', methods=['POST'])
+def delete_all():
+    book_id = request.form['book_id_give']
+    db.books.delete_one({
+        '_id': ObjectId(book_id)
+    })
+    db.quotes.delete_many({
+        'book_id': ObjectId(book_id),
+    })
+    quote_id = request.form['quote_id_give']
+    db.comments.delete_many({
+        'quote_id': ObjectId(quote_id),
+    })
+
+    return jsonify({'result': 'success', 'msg': '삭제되었습니다.'})
 
 # 코멘트 추가
 @app.route('/book_comment', methods=['POST'])
