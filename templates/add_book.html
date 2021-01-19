@@ -99,8 +99,6 @@
                 alert("이미지 URL을 입력해주세요")
             } else if (quote == "") {
                 alert("한줄을 입력해주세요");
-            } else {
-                alert("내용이 저장되었습니다!");
             }
 
             $.ajax({
@@ -184,7 +182,7 @@
     </div>
     <p></p>
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label">이미지 URL:</label>
+        <label class="col-sm-3 col-form-label">이미지 주소(URL):</label>
         <div class="col-sm-9">
             <input type="url" class="form-control" id="image">
         </div>
@@ -208,7 +206,6 @@
         <button type="button" class="btn btn-outline-primary" onclick="addBook()">추가하기</button>
     </p>
 </div>
-
 
 
 <script src="/static/assets/brand/js/bootstrap.bundle.min.js"></script>

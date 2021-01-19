@@ -64,7 +64,7 @@ def add_book():
         'comment': comment_receive
     })
 
-    return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
+    return jsonify({'result': 'success', 'msg': '저장되었습니다.'})
 
 #    #    #  책  #    #    #
 
@@ -83,7 +83,7 @@ def add_quote():
         'quote': quote_receive,
     })
 
-    return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
+    return jsonify({'result': 'success', 'msg': '저장되었습니다.'})
 
 # 구절 & 해당 코멘트 삭제
 @app.route('/book_quote_delete', methods=['POST'])
@@ -115,14 +115,17 @@ def delete_all():
     db.books.delete_one({
         '_id': ObjectId(book_id)
     })
+    quotes = db.quotes.find({
+        'book_id': ObjectId(book_id),
+    })
+    for quote in quotes :
+        db.comments.delete_many({
+            'quote_id': quote['_id'],
+        })
+
     db.quotes.delete_many({
         'book_id': ObjectId(book_id),
     })
-    quote_id = request.form['quote_id_give']
-    db.comments.delete_many({
-        'quote_id': ObjectId(quote_id),
-    })
-
     return jsonify({'result': 'success', 'msg': '삭제되었습니다.'})
 
 # 코멘트 추가
@@ -135,7 +138,7 @@ def add_comment():
         'comment': comment_receive
     })
 
-    return jsonify({'result': 'success', 'msg': '성공적으로 저장되었습니다.'})
+    return jsonify({'result': 'success', 'msg': '저장되었습니다.'})
 
 
 # 책, 이미지, 구절, 코멘트 다 불러오기
@@ -147,9 +150,9 @@ def read_book():
     quotes = list(db.quotes.find({'book_id': book['_id']}))
 
     for quote in quotes:
+        comments = list(db.comments.find({'quote_id': quote['_id']}))
         quote['_id'] = str(quote['_id'])
         quote['book_id'] = str(quote['book_id'])
-        comments = list(db.comments.find({'quote_id': quote['_id']}))
         for comment in comments:
             comment['_id'] = str(comment['_id'])
             comment['quote_id'] = str(comment['quote_id'])
