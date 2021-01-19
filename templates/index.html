@@ -11,11 +11,12 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
     <!-- Bootstrap core CSS -->
+    <link href="/static/assets/dist/css/bookstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-          crossorigin="anonymous">
-    <link href="/static/assets/brand/css/bootstrap.min.css" rel="stylesheet">
-
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,6 +26,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="내 사이트의 제목"/>
+    <meta property="og:description" content="보고 있는 페이지의 내용 요약"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}"/>
 
     <style>
         .bd-placeholder-img {
@@ -125,8 +130,8 @@
             let tempHtml = `<div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col-auto d-none d-lg-block">
-                    <img class="image bd-placeholder-img"
-                         src="${image}">
+                    <img class="image"
+                         src="${image}" placeholder="https://user-images.githubusercontent.com/47315479/81145216-7fbd8700-8f7e-11ea-9d49-bd5fb4a888f1.png">
                 </div>
                 <div class="col p-4 d-flex flex-column position-static">
                     <a class="mb-0 title_font" href="/book?book_id=${book_id}">${title}</a>
@@ -152,8 +157,10 @@
                     <h4 class="text-white">About</h4>
                     <p class="mute_font">
                         책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
-                        여러분들은 책을 읽으면서 어떤 부분에서 어떤 생각이 드셨나요? 함께 공유하며 책들을 기억해 봅시다.
-                        어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
+                        여러분들은 책을 읽으면서 어떤 줄에서 어떤 생각이 드셨나요?
+                    '한줄'에서는 감명 깊었던 책 속 한줄들을 공유하고, 각 구절에 대한 생각을 코멘트로 남길 수 있습니다.
+                    함께 생각을 공유하며 책들을 기억해 봅시다.
+                    어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
                     </p>
                 </div>
                 <div class="col-sm-4 offset-md-1 py-4">
