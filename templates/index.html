@@ -162,13 +162,6 @@
             $('#random-quote').append(tempHtml);
         }
 
-
-        {#let bookcard, i;#}
-        {#let bookCard = document.getElementsByClassName("bookCard");#}
-        {#for (i = 0; i < bookCard.length; i++) {#}
-        {#     bookCard[i].style.display = "none";#}
-        {#}#}
-
             function makeBooks(book_id, title, image, a_quote, b_quote) {
                 let imageOrPlaceholder = image
                 let tempHtml = `<div class="col-md-6 bookCard">

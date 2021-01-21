@@ -95,23 +95,26 @@
             let comment = $("#comment").val();
             if (title == '') {
                 alert("제목을 입력해주세요");
-            } else if (image == "") {
-                alert("이미지 URL을 입력해주세요")
-            } else if (quote == "") {
+            } else if (image == '') {
+                alert("이미지 URL을 입력해주세요");
+            } else if (comment == '') {
+                alert("코멘트를 입력해주세요");
+            } else if (quote == '') {
                 alert("한줄을 입력해주세요");
-            }
+            } else {
 
-            $.ajax({
-                type: "POST",
-                url: "/add_book",
-                data: {title_give: title, image_give: image, quote_give: quote, comment_give: comment},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        alert(response["msg"]);
-                        window.location.href = '/';
+                $.ajax({
+                    type: "POST",
+                    url: "/add_book",
+                    data: {title_give: title, image_give: image, quote_give: quote, comment_give: comment},
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            window.location.href = '/';
+                        }
                     }
-                }
-            })
+                })
+            }
         }
 
         function appendBook() {
@@ -177,30 +180,30 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label">제목:</label>
         <div class="col-sm-9">
-            <input id="title" type="text" class="form-control">
+            <input id="title" type="text" class="form-control" placeholder="책 제목을 입력해주세요.">
         </div>
     </div>
     <p></p>
     <div class="form-group row">
         <label class="col-sm-3 col-form-label">이미지 주소(URL):</label>
         <div class="col-sm-9">
-            <input type="url" class="form-control" id="image">
+            <input type="url" class="form-control" id="image" placeholder="꼭 URL 주소로 입력해주세요.">
         </div>
-        <a href="http://www.kyobobook.co.kr/" target="_blank" class="href">*(클릭)교보문고에서 검색하시면 더 정확한 이미지를 얻을 수 있어요!</a>
+        <a href="http://www.kyobobook.co.kr/" target="_blank" class="href">*(클릭)교보문고에서 검색하면 더 정확한 이미지를 얻을 수 있어요!</a>
     </div>
     <p></p>
     <div class="form-group row inline">
         <label class="col-sm-3 col-form-label">한줄:</label>
         <textarea class="form-control" id="quote"
                   cols="30"
-                  rows="5"></textarea>
+                  rows="5" placeholder="구절을 입력해주세요. 페이지 번호도 안다면 함께 입력해주세요."></textarea>
     </div>
     <p></p>
     <div class="form-group row inline">
         <label class="col-sm-3 col-form-label">코멘트:</label>
         <textarea class="form-control" id="comment"
                   cols="30"
-                  rows="5" placeholder="필수 입력 사항이 아닙니다."></textarea>
+                  rows="5" placeholder="구절에 대한 자신의 생각을 입력해주세요."></textarea>
     </div>
     <p class="center save_button">
         <button type="button" class="btn btn-outline-primary" onclick="addBook()">추가하기</button>
