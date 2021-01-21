@@ -83,7 +83,7 @@
         }
 
         .footer {
-            margin-right: 610px;
+            margin-right: 520px;
         }
 
         .random-quote {
@@ -126,7 +126,6 @@
                             }
 
                             makeBooks(book['_id'], book['title'], book['image'], a_quote, b_quote);
-                            renderRandomQuote(quotes)
                         }
                     } else {
                         alert("데이터를 받아오지 못했습니다");
@@ -137,14 +136,15 @@
 
         function renderRandomQuote(quotes) {
             let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            let tempHtml =`
+            let quote = randomQuote.quote
+            let tempHtml = `
                 <div class="card">
                 <div class="card-header">
                     아무거나 한줄
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
-                        <p>${randomQuote}</p>
+                        <p>${quote}</p>
                         <footer class="blockquote-footer"><cite title="Source Title">Booktitle</cite></footer>
                     </blockquote>
                 </div>
@@ -153,11 +153,11 @@
         }
 
 
-            {#let bookcard, i;#}
-            {#let bookCard = document.getElementsByClassName("bookCard");#}
-            {#for (i = 0; i < bookCard.length; i++) {#}
-            {#     bookCard[i].style.display = "none";#}
-            {#}#}
+        {#let bookcard, i;#}
+        {#let bookCard = document.getElementsByClassName("bookCard");#}
+        {#for (i = 0; i < bookCard.length; i++) {#}
+        {#     bookCard[i].style.display = "none";#}
+        {#}#}
 
             function makeBooks(book_id, title, image, a_quote, b_quote) {
                 let imageOrPlaceholder = image
@@ -186,9 +186,6 @@
                 $('#added-books').append(tempHtml);
             }
 
-            $("#search-value").keyup(function (e) {
-                if (e.keyCode == 13) search();
-            });
 
             function search() {
                 let value, bookCard, title, i;
@@ -268,10 +265,11 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">책 제목</span>
                     <input id="search-value" type="text" class="form-control"
-                           aria-label="Text input with dropdown button">
+                           aria-label="Text input with dropdown button"
+                           onkeypress="if( event.keyCode == 13 ){search();}">
                     <button id="search-btn" type="button" class="btn btn-secondary btn-lg" onclick="search()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-search" viewBox="0 0 16 16">
@@ -279,6 +277,7 @@
                         </svg>
                     </button>
                 </div>
+                <p></p>
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button id="random-search-btn" onclick="random()" class="btn btn-dark big_font" type="button">아무거나
                         한줄!
