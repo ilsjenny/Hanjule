@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.79.0">
-    <title>Main</title>
+    <title>한줄 (Hanjule)</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -27,8 +27,8 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
-    <meta property="og:title" content="내 사이트의 제목"/>
-    <meta property="og:description" content="보고 있는 페이지의 내용 요약"/>
+    <meta property="og:title" content="한줄"/>
+    <meta property="og:description" content="책 속 구절을 공유하고 생각을 나눠 보아요."/>
     <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}"/>
 
     <style>
@@ -86,6 +86,10 @@
             margin-right: 610px;
         }
 
+        .random-quote {
+            width: 900px;
+            margin: auto;
+        }
 
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
@@ -122,6 +126,7 @@
                             }
 
                             makeBooks(book['_id'], book['title'], book['image'], a_quote, b_quote);
+                            renderRandomQuote(quotes)
                         }
                     } else {
                         alert("데이터를 받아오지 못했습니다");
@@ -130,23 +135,47 @@
             })
         }
 
-        function makeBooks(book_id, title, image, a_quote, b_quote) {
-            let imageOrPlaceholder = image
-            let tempHtml = `<div class="col-md-6">
+        function renderRandomQuote(quotes) {
+            let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            let tempHtml =`
+                <div class="card">
+                <div class="card-header">
+                    아무거나 한줄
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>${randomQuote}</p>
+                        <footer class="blockquote-footer"><cite title="Source Title">Booktitle</cite></footer>
+                    </blockquote>
+                </div>
+            </div>`
+            $('#random-quote').append(tempHtml);
+        }
+
+
+            {#let bookcard, i;#}
+            {#let bookCard = document.getElementsByClassName("bookCard");#}
+            {#for (i = 0; i < bookCard.length; i++) {#}
+            {#     bookCard[i].style.display = "none";#}
+            {#}#}
+
+            function makeBooks(book_id, title, image, a_quote, b_quote) {
+                let imageOrPlaceholder = image
+                let tempHtml = `<div class="col-md-6 bookCard">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col-auto d-none d-lg-block">
                     <img class="image"
                          src="${image}" placeholder="https://user-images.githubusercontent.com/47315479/81145216-7fbd8700-8f7e-11ea-9d49-bd5fb4a888f1.png">
                 </div>
                 <div class="col p-4 d-flex flex-column position-static">
-                    <a class="mb-0 title_font" href="/book?book_id=${book_id}">${title}</a>
-                    <p class="card-text mb-auto truncate line-clamp text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    <a class="mb-0 title_font title" href="/book?book_id=${book_id}">${title}</a>
+                    <p class="card-text mb-auto truncate line-clamp text-muted quote"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                      class="bi bi-blockquote-left"
                      viewBox="0 0 16 16">
                     <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
                 </svg>${a_quote}</p>
                     <p></p>
-                    <p class="card-text mb-auto truncate line-clamp text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    <p class="card-text mb-auto truncate line-clamp text-muted quote"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                      class="bi bi-blockquote-left"
                      viewBox="0 0 16 16">
                     <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm.79-5.373c.112-.078.26-.17.444-.275L3.524 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282c.024-.203.065-.37.123-.498a1.38 1.38 0 0 1 .252-.37 1.94 1.94 0 0 1 .346-.298zm2.167 0c.113-.078.262-.17.445-.275L5.692 6c-.122.074-.272.17-.452.287-.18.117-.35.26-.51.428a2.425 2.425 0 0 0-.398.562c-.11.207-.164.438-.164.692 0 .36.072.65.217.873.144.219.385.328.72.328.215 0 .383-.07.504-.211a.697.697 0 0 0 .188-.463c0-.23-.07-.404-.211-.521-.137-.121-.326-.182-.568-.182h-.282a1.75 1.75 0 0 1 .118-.492c.058-.13.144-.254.257-.375a1.94 1.94 0 0 1 .346-.3z"/>
@@ -154,8 +183,38 @@
                 </div>
             </div>
         </div>`;
-            $('#added-books').append(tempHtml);
-        }
+                $('#added-books').append(tempHtml);
+            }
+
+            $("#search-value").keyup(function (e) {
+                if (e.keyCode == 13) search();
+            });
+
+            function search() {
+                let value, bookCard, title, i;
+                value = $('#search-value').val()
+                bookCard = document.getElementsByClassName("bookCard");
+                for (i = 0; i < bookCard.length; i++) {
+                    title = bookCard[i].getElementsByClassName("title");
+                    if (title[0].innerHTML.indexOf(value) > -1) {
+                        bookCard[i].style.display = "flex";
+                    } else {
+                        bookCard[i].style.display = "none";
+                    }
+                }
+            }
+
+            {#random quote 박스 open close #}
+
+            function random() {
+                if ($(`#random-quote`).css("display") == "block") {
+                    $(`#random-quote`).hide();
+                    $(`#random-search-btn`).html(`아무거나 한줄!`);
+                } else {
+                    $(`#random-quote`).show();
+                    $(`#random-search-btn`).html(`아무거나 한줄 닫기`);
+                }
+            }
 
     </script>
 
@@ -171,9 +230,9 @@
                     <p class="mute_font">
                         책의 완성도나 만족도와는 별개로, 한줄의 대사나 구절이 큰 울림이 되어 다가올 때가 있습니다.
                         여러분들은 책을 읽으면서 어떤 줄에서 어떤 생각이 드셨나요?
-                    '한줄'에서는 감명 깊었던 책 속 한줄들을 공유하고, 각 구절에 대한 생각을 코멘트로 남길 수 있습니다.
-                    함께 생각을 공유하며 책들을 기억해 봅시다.
-                    어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
+                        '한줄'에서는 감명 깊었던 책 속 한줄들을 공유하고, 각 구절에 대한 생각을 코멘트로 남길 수 있습니다.
+                        함께 생각을 공유하며 책들을 기억해 봅시다.
+                        어쩌면 누군가 써놓은 한줄과 코멘트에 감명받아 새 책을 사게 될 지도 몰라요!
                     </p>
                 </div>
                 <div class="col-sm-4 offset-md-1 py-4">
@@ -210,21 +269,10 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <div class="input-group mb-3">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">제목
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">제목</a></li>
-                        <li><a class="dropdown-item" href="#">한줄</a></li>
-                        <li><a class="dropdown-item" href="#">코멘트</a></li>
-                        <!--                        <li>-->
-                        <!--                            <hr class="dropdown-divider">-->
-                        <!--                        </li>-->
-                        <!--                        <li><a class="dropdown-item" href="#">Separated link</a></li>-->
-                    </ul>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <button type="button" class="btn btn-secondary btn-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+                    <input id="search-value" type="text" class="form-control"
+                           aria-label="Text input with dropdown button">
+                    <button id="search-btn" type="button" class="btn btn-secondary btn-lg" onclick="search()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -232,9 +280,13 @@
                     </button>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-dark big_font" type="button">아무거나 한줄!</button>
+                    <button id="random-search-btn" onclick="random()" class="btn btn-dark big_font" type="button">아무거나
+                        한줄!
+                    </button>
                 </div>
             </div>
+        </div>
+        <div id="random-quote" class="random-quote" style="display:none">
         </div>
     </section>
     </div>
@@ -248,20 +300,6 @@
         </button>
         <p></p>
         <div id="added-books" class="row mb-2">
-            <div class="col-md-6">
-                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <div class="col-auto d-none d-lg-block">
-                        <img class="image bd-placeholder-img"
-                             src="http://image.kyobobook.co.kr/images/book/xlarge/005/x9791165300005.jpg">
-                    </div>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <a class="mb-0 title_font" href="/book">Title</a>
-                        <p class="card-text mb-auto truncate line-clamp text-muted">Quote 1</p>
-                        <p></p>
-                        <p class="card-text mb-auto truncate line-clamp text-muted">Quote 2</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </main>

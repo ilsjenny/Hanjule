@@ -5,7 +5,7 @@ from pprint import pprint
 
 app = Flask(__name__)
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://ilsjenny:ghkdduswo@15.164.97.52', 27017)
 db = client.dbsparta
 
 
@@ -29,6 +29,15 @@ def read_books():
         book['quotes'] = quotes
 
     pprint(books)
+
+    return jsonify({'result': 'success', 'books': books})
+
+@app.route('/random_search', methods=['GET'])
+def random_search():
+    books = list(db.books.find({}))
+    quotes = list(db.quotes.find({}, {'_id': 0}))
+
+    pprint(books, quotes)
 
     return jsonify({'result': 'success', 'books': books})
 
