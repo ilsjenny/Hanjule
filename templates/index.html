@@ -112,11 +112,17 @@
                 success: function (response) {
                     if (response["result"] == "success") {
                         let books = response["books"];
+                        let totalQuotes = [];
                         for (let i = 0; i < books.length; i++) {
                             let book = books[i];
                             let a_quote = '';
                             let b_quote = '';
                             let quotes = book['quotes']
+
+                            for (let j = 0; j < quotes.length; j++) {
+                                quotes[j]['title'] = book['title'];
+                                totalQuotes.push(quotes[j]);
+                            }
 
                             if (quotes.length >= 2) {
                                 a_quote = quotes[quotes.length - 1]['quote'];
@@ -125,8 +131,12 @@
                                 a_quote = quotes[quotes.length - 1]['quote'];
                             }
 
+
                             makeBooks(book['_id'], book['title'], book['image'], a_quote, b_quote);
                         }
+
+                        renderRandomQuote(totalQuotes);
+
                     } else {
                         alert("데이터를 받아오지 못했습니다");
                     }
@@ -145,7 +155,7 @@
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <p>${quote}</p>
-                        <footer class="blockquote-footer"><cite title="Source Title">Booktitle</cite></footer>
+                        <footer class="blockquote-footer"><cite title="Source Title">${randomQuote.title}</cite></footer>
                     </blockquote>
                 </div>
             </div>`
